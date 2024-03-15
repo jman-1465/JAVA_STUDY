@@ -1,0 +1,45 @@
+import java.io.*;
+import java.util.*;
+
+public class Main {
+
+    public static void main(String[] args) throws IOException {
+        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+        StringBuilder sb = new StringBuilder();
+        while (true) {
+            int n = Integer.parseInt(br.readLine());
+            if (n == -1) break;  //-1을 입력 받으면 입력 종료
+            List<Integer> list = getDivisor(n);
+            if (list == null) {
+                sb.append(n + " is NOT perfect.\n");
+                continue;
+            }
+            sb.append(n + " = ");
+            for (int i = 0; i < list.size() - 1; i++) {
+                sb.append(list.get(i) + " + ");
+            }
+            sb.append(list.get(list.size() - 1) + "\n");
+        }
+        System.out.print(sb);
+
+    }
+
+    //정수 n의 약수들을 구해서 약수들을 리스트로 반환. 단, 약수들의 합이 n이 아닐 경우, null 반환.
+    public static List<Integer> getDivisor(int n) {
+        List<Integer> list = new ArrayList<>();
+        list.add(1);
+        int total = 1;
+
+        // 약수들을 효율적으로 구하려면 n의 제곱근까지만 하면 된다.
+        for (int i = 2; i <= Math.sqrt(n); i++) {
+            if (n % i == 0) {
+                list.add(i);
+                list.add(n / i);
+                total += i + (n/i);
+            }
+        }
+        if (total != n) return null;
+        Collections.sort(list);
+        return list;
+    }
+}
