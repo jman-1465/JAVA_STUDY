@@ -1,0 +1,1 @@
+        int k = Integer.parseInt(st.nextToken()); //커르라인 수
