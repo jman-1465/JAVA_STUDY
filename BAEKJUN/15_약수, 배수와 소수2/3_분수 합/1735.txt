@@ -1,0 +1,47 @@
+import java.io.*;
+import java.util.*;
+
+public class Main {
+    public static void main(String[] args) throws IOException {
+        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+        BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(System.out));
+
+        int[] aArray = new int[2]; //분자 배열
+        int[] bArray = new int[2]; //분모 배열
+
+        for(int i = 0; i < 2; i++){
+            StringTokenizer st = new StringTokenizer(br.readLine());
+            aArray[i] = Integer.parseInt(st.nextToken());
+            bArray[i] = Integer.parseInt(st.nextToken());
+        }
+
+        //최소 공배수 구하기 - 분모 구하기
+        int commonB = bArray[0] * bArray[1] / findGCD(bArray[0], bArray[1]);
+
+        //분자 구하기
+        int addA = aArray[0]*(commonB/bArray[0]) + aArray[1]*(commonB/bArray[1]);
+
+        int abbreviation = findGCD(commonB, addA); //약분해야할 요소
+
+        if(abbreviation != 1){ //만약 기약 분수가 아닐 경우(공약수가 1이 아닌 경우는 나눌 수 있는 무언가가 있다는 것)
+            commonB = commonB/abbreviation;
+            addA = addA/abbreviation;
+        }
+
+        bw.write(addA + " " +  commonB);
+
+        br.close();
+        bw.flush();
+        bw.close();
+    }
+
+    //최대 공약수 구하기
+    static int findGCD(int b1, int b2){
+        while(b2 != 0){
+            int R = b1%b2;
+            b1 = b2;
+            b2 = R;
+        }
+        return b1;
+    }
+}
